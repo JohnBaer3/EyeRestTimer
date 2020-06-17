@@ -22,7 +22,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <segue destination="Dk9-Lx-2Jl" kind="show" id="hBB-VK-gZU"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -163,11 +167,10 @@
         <!--Window Controller-->
         <scene sceneID="rYs-Q8-bJx">
             <objects>
-                <windowController id="Dk9-Lx-2Jl" sceneMemberID="viewController">
+                <windowController id="Dk9-Lx-2Jl" customClass="PrefsVIewController" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="qsx-na-pA6">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="268" y="330" width="480" height="270"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+                        <rect key="contentRect" x="268" y="330" width="416" height="214"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1792" height="1097"/>
                         <connections>
                             <outlet property="delegate" destination="Dk9-Lx-2Jl" id="xSQ-U5-1qh"/>
@@ -181,18 +184,75 @@
             </objects>
             <point key="canvasLocation" x="596" y="250"/>
         </scene>
-        <!--View Controller-->
+        <!--Prefs View Controller-->
         <scene sceneID="Hei-ve-iTR">
             <objects>
-                <viewController id="g2K-XH-cdZ" sceneMemberID="viewController">
+                <viewController id="g2K-XH-cdZ" customClass="PrefsViewController" customModule="FocusTimer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="bXB-3D-5Qh">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sbv-qr-t99">
+                                <rect key="frame" x="36" y="226" width="111" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Select Timer time" id="LsI-0p-aiB">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mgD-7D-99c">
+                                <rect key="frame" x="39" y="91" width="82" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QkQ-DE-bRx">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButtonClicked:" target="g2K-XH-cdZ" id="bxD-2I-2ae"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XbY-ep-Yw9">
+                                <rect key="frame" x="153" y="91" width="57" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="usn-0h-vuW">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="okButtonClicked:" target="g2K-XH-cdZ" id="5vX-5W-iU7"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Oa-sF-6Sw">
+                                <rect key="frame" x="45" y="184" width="13" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="0" id="kMv-9l-qhU">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f3s-ut-AWj">
+                                <rect key="frame" x="43" y="159" width="96" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" enabled="NO" state="on" alignment="left" maxValue="90" doubleValue="30" tickMarkPosition="above" numberOfTickMarks="19" allowsTickMarkValuesOnly="YES" sliderType="linear" id="Ia6-ds-lHu"/>
+                                <connections>
+                                    <action selector="sliderValueChanged:" target="g2K-XH-cdZ" id="96j-sf-afJ"/>
+                                </connections>
+                            </slider>
+                        </subviews>
                     </view>
+                    <connections>
+                        <outlet property="customSlider" destination="f3s-ut-AWj" id="L81-br-9PI"/>
+                        <outlet property="customTextField" destination="7Oa-sF-6Sw" id="sj1-aW-QFq"/>
+                    </connections>
                 </viewController>
                 <customObject id="ajQ-bU-cdE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1303" y="225"/>
+            <point key="canvasLocation" x="1154" y="250"/>
         </scene>
     </scenes>
 </document>

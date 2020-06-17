@@ -13,11 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var statusBarMenu = NSMenu(title: "Cap Status Bar Menu")
     var statusBarItem: NSStatusItem!
-    var time: Int? = nil {
-        didSet{
-            
-        }
-    }
+    var time: Int? = nil
     var paused = false
     var timer = Timer()
 
@@ -25,16 +21,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let statusBar = NSStatusBar.system
         statusBarItem = statusBar.statusItem(
-            withLength: NSStatusItem.squareLength)
+            withLength: NSStatusItem.variableLength)
         
         statusBarItem.menu = statusBarMenu
 
         statusBarItem.button!.title = "⏱"
             
         statusBarMenu.addItem(
-            withTitle: "Choose a time",
-            action: #selector(AppDelegate.chooseTime),
-            keyEquivalent: "")
+        withTitle: "20 minutes",
+        action: #selector(AppDelegate.chooseTime20),
+        keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+        withTitle: "30 minutes",
+        action: #selector(AppDelegate.chooseTime30),
+        keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+        withTitle: "40 minutes",
+        action: #selector(AppDelegate.chooseTime40),
+        keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+        withTitle: "60 minutes",
+        action: #selector(AppDelegate.chooseTime60),
+        keyEquivalent: "")
         
         statusBarMenu.addItem(
             NSMenuItem(title: "Quit",
@@ -49,9 +60,87 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     
-    @objc func chooseTime() {
+    @objc func chooseTime20() {
         if time == nil{
-            time = 10
+            time = 1200
+            startTimer()
+            
+            statusBarMenu.removeAllItems()
+            statusBarItem.button!.title = convertToTime(number: time!)
+            
+            statusBarMenu.addItem(
+                withTitle: "Pause",
+                action: #selector(AppDelegate.pause),
+                keyEquivalent: "")
+            
+            statusBarMenu.addItem(
+                withTitle: "Reset",
+                action: #selector(AppDelegate.reset),
+                keyEquivalent: "")
+            
+            statusBarMenu.addItem(
+                NSMenuItem(title: "Quit",
+                action: #selector(NSApplication.terminate(_:)),
+                keyEquivalent: "q")
+            )
+        }
+    }
+    
+    @objc func chooseTime30() {
+        if time == nil{
+            time = 1800
+            startTimer()
+            
+            statusBarMenu.removeAllItems()
+            statusBarItem.button!.title = convertToTime(number: time!)
+            
+            statusBarMenu.addItem(
+                withTitle: "Pause",
+                action: #selector(AppDelegate.pause),
+                keyEquivalent: "")
+            
+            statusBarMenu.addItem(
+                withTitle: "Reset",
+                action: #selector(AppDelegate.reset),
+                keyEquivalent: "")
+            
+            statusBarMenu.addItem(
+                NSMenuItem(title: "Quit",
+                action: #selector(NSApplication.terminate(_:)),
+                keyEquivalent: "q")
+            )
+        }
+    }
+    
+    @objc func chooseTime40() {
+        if time == nil{
+            time = 2400
+            startTimer()
+            
+            statusBarMenu.removeAllItems()
+            statusBarItem.button!.title = convertToTime(number: time!)
+            
+            statusBarMenu.addItem(
+                withTitle: "Pause",
+                action: #selector(AppDelegate.pause),
+                keyEquivalent: "")
+            
+            statusBarMenu.addItem(
+                withTitle: "Reset",
+                action: #selector(AppDelegate.reset),
+                keyEquivalent: "")
+            
+            statusBarMenu.addItem(
+                NSMenuItem(title: "Quit",
+                action: #selector(NSApplication.terminate(_:)),
+                keyEquivalent: "q")
+            )
+        }
+    }
+    
+    @objc func chooseTime60() {
+        if time == nil{
+            time = 3600
             startTimer()
             
             statusBarMenu.removeAllItems()
@@ -77,7 +166,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func pause() {
         paused = !paused
-        statusBarItem.button!.title = "Resume"
+        statusBarMenu.removeAllItems()
+        statusBarItem.button!.title = convertToTime(number: time!)
+        
+        if(paused){
+            statusBarMenu.addItem(
+            withTitle: "Resume",
+            action: #selector(AppDelegate.pause),
+            keyEquivalent: "")
+        }else{
+            statusBarMenu.addItem(
+            withTitle: "Pause",
+            action: #selector(AppDelegate.pause),
+            keyEquivalent: "")
+        }
+        
+        statusBarMenu.addItem(
+            withTitle: "Reset",
+            action: #selector(AppDelegate.reset),
+            keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+            NSMenuItem(title: "Quit",
+            action: #selector(NSApplication.terminate(_:)),
+            keyEquivalent: "q")
+        )
     }
     
     
@@ -89,8 +202,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarMenu.removeAllItems()
         
         statusBarMenu.addItem(
-        withTitle: "Choose a time",
-        action: #selector(AppDelegate.chooseTime),
+        withTitle: "20 minutes",
+        action: #selector(AppDelegate.chooseTime20),
+        keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+        withTitle: "30 minutes",
+        action: #selector(AppDelegate.chooseTime30),
+        keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+        withTitle: "40 minutes",
+        action: #selector(AppDelegate.chooseTime40),
+        keyEquivalent: "")
+        
+        statusBarMenu.addItem(
+        withTitle: "60 minutes",
+        action: #selector(AppDelegate.chooseTime60),
         keyEquivalent: "")
         
         statusBarMenu.addItem(
@@ -103,26 +231,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func convertToTime(number: Int) -> String{
         let min = String(number / 60)
-        let secs = String(number % 60)
+        var secs = String(number % 60)
+        if(secs.count == 1){
+            secs = "00"
+        }
         return String(min + ":" + secs)
     }
     
     func startTimer(){
         if !paused{
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.subtractTime), userInfo: nil, repeats: true)
-        }else{
-            timer.invalidate()
         }
     }
     
     @objc func subtractTime(){
-        if(time! > 0){
+        if(!paused && time! > 0){
             time! -= 1
             statusBarItem.button!.title = convertToTime(number: time!)
-        }else{
-            //popup
-            
-            reset()
+        }else if(time! == 0){
+            let alert = NSAlert()
+            alert.messageText = "Timer ended. Do another?"
         }
     }
     
@@ -131,18 +259,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-    
-    
-    
-    @IBAction func startButtonClicked(_ sender: Any) {
-    }
-    
-    @IBAction func stopButtonClicked(_ sender: Any) {
-    }
-    
-    @IBAction func resetButtonClicked(_ sender: Any) {
-    }
-    
     
     
 
